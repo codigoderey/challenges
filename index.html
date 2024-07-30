@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head></head>
+	<body>
+		<nav>Nav</nav>
+	</body>
+</html>
+
+<script type="module">
+	import { generateHeadAndScriptContent } from "/assets/js/app.js";
+
+	document.head.innerHTML = generateHeadAndScriptContent(
+		"Data Structures and Algorithms",
+		"Everything you need to know about Data Structures and Algorithms with JavaScript."
+	);
+</script>
