@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Understanding Closures in JavaScript</title>
+	</head>
+	<body>
+		<h1>What are Closures and How Do They Work in JavaScript?</h1>
+		<p>
+			In JavaScript, a closure is the combination of a function and the lexical
+			environment within which that function was declared. This environment
+			consists of any local variables that were in-scope at the time the closure
+			was created.
+		</p>
+
+		<h2>Key Characteristics of Closures</h2>
+
+		<ul>
+			<li
+				>**Inner Functions:** Closures are typically formed by defining an inner
+				function within an outer function.</li
+			>
+			<li
+				>**Lexical Scoping:** The inner function maintains a reference to its
+				surrounding state (the variables in its outer scope) even after the
+				outer function has finished executing.</li
+			>
+			<li
+				>**Data Encapsulation:** Closures provide a way to create private
+				variables, hiding them from the global scope and making them accessible
+				only through the inner function.</li
+			>
+		</ul>
+
+		<h2>Example: Closure in Action</h2>
+		<pre><code>
+function outerFunction() {
+  let outerVar = "Hello";
+
+  function innerFunction() {
+    console.log(outerVar); // Accesses outerVar from outer scope
+  }
+
+  return innerFunction;
+}
+
+let closure = outerFunction();
+closure(); // Output: "Hello" (even though outerFunction has finished)
+  </code></pre>
+
+		<h2>Why are Closures Important?</h2>
+		<ul>
+			<li>
+				**Data Encapsulation:** Closures create "private" variables that are
+				only accessible within the closure's scope. This is essential for
+				building modular and maintainable code.
+			</li>
+			<li>
+				**State Preservation:** Closures "remember" the values of variables from
+				their creation environment, allowing you to maintain state between
+				function calls.
+			</li>
+			<li>
+				**Partial Application and Currying:** Closures are the basis for
+				functional programming techniques like partial application and currying,
+				where you create new functions with pre-set arguments.
+			</li>
+		</ul>
+
+		<h2>Common Use Cases</h2>
+		<ul>
+			<li
+				>**Event Handlers:** Closures are often used in event handlers to
+				preserve data related to a specific event.</li
+			>
+			<li
+				>**Callbacks:** Functions passed as arguments to other functions
+				(callbacks) often rely on closures to access their surrounding
+				scope.</li
+			>
+			<li
+				>**Modules:** Closures are a key mechanism for creating modular code in
+				JavaScript, protecting internal variables and exposing only specific
+				functionalities.</li
+			>
+		</ul>
+	</body>
+</html>

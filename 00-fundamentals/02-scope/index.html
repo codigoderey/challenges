@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Understanding Variable Scope in JavaScript</title>
+	</head>
+	<body>
+		<h1>What is Variable Scope in JavaScript?</h1>
+		<p>
+			In JavaScript, the scope of a variable determines where it can be accessed
+			within your code. There are two primary types of scope:
+		</p>
+
+		<h2>Global Scope</h2>
+		<p>
+			Variables declared outside of any function have global scope. They are
+			accessible from anywhere within your JavaScript code, including inside
+			functions.
+		</p>
+
+		<pre><code>
+let globalVar = "I'm global!";
+
+function myFunction() {
+  console.log(globalVar); // Accessible here
+}
+
+myFunction(); // Output: "I'm global!"
+  </code></pre>
+
+		<h2>Local Scope</h2>
+		<p>
+			Variables declared within a function have local scope. They are only
+			accessible inside that function. Trying to access them outside the
+			function will result in an error.
+		</p>
+
+		<pre><code>
+function myFunction() {
+  let localVar = "I'm local!";
+  console.log(localVar); // Accessible here
+}
+
+myFunction(); // Output: "I'm local!"
+console.log(localVar); // Error: localVar is not defined
+  </code></pre>
+
+		<h2>Block Scope (ES6+)</h2>
+		<p>
+			Variables declared with `let` and `const` (introduced in ES6) also have
+			block scope. This means they are only accessible within the specific block
+			of code they are defined in (e.g., inside loops, if statements).
+		</p>
+
+		<pre><code>
+if (true) {
+  let blockVar = "I'm block-scoped!";
+  console.log(blockVar); // Accessible here
+}
+
+console.log(blockVar); // Error: blockVar is not defined
+  </code></pre>
+
+		<h2>Important Considerations</h2>
+
+		<ul>
+			<li>
+				**Hoisting (var):** Variables declared with `var` are hoisted to the top
+				of their scope, but their initialization is not. This can lead to
+				unexpected behavior if not understood properly.
+			</li>
+			<li>
+				**let and const (ES6+):** Use `let` for variables that might be
+				reassigned and `const` for variables that should remain constant. They
+				offer better scoping and help prevent accidental modifications.
+			</li>
+		</ul>
+
+		<h2>Best Practices</h2>
+		<ul>
+			<li
+				>Declare variables as close as possible to where they are used to
+				improve readability and maintainability.</li
+			>
+			<li
+				>Use `const` by default, and only use `let` when you explicitly need to
+				reassign the variable's value.</li
+			>
+			<li
+				>Limit the use of global variables to avoid potential naming conflicts
+				and unintended side effects.</li
+			>
+		</ul>
+	</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Understanding Hoisting in JavaScript</title>
+	</head>
+	<body>
+		<h1>What is Hoisting and How Does it Work in JavaScript?</h1>
+
+		<p>
+			Hoisting is a JavaScript mechanism where variable and function
+			declarations are moved to the top of their scope before code execution.
+			This behavior can lead to unexpected results if not understood properly.
+		</p>
+
+		<h2>Key Points to Remember</h2>
+		<ul>
+			<li
+				>Variables declared with `var` are hoisted, but their initialization is
+				not. This means they have an initial value of `undefined`.</li
+			>
+			<li
+				>Function declarations (`function myFunction() {}`) are fully
+				hoisted.</li
+			>
+			<li
+				>Function expressions (`const myFunction = function() {}`) and arrow
+				functions are not hoisted.</li
+			>
+			<li
+				>Variables declared with `let` and `const` are not hoisted in the
+				traditional sense. They are in a "temporal dead zone" until their
+				declaration is reached.</li
+			>
+		</ul>
+
+		<h2>Example: Hoisting in Action</h2>
+		<pre><code>
+console.log(x); // Output: undefined (variable hoisted, but not initialized)
+var x = 10;
+
+myFunction(); // Output: "Hello from myFunction!" (function declaration hoisted)
+function myFunction() {
+  console.log("Hello from myFunction!");
+}
+  </code></pre>
+
+		<h2>Why is Understanding Hoisting Important?</h2>
+		<p>
+			Understanding hoisting is crucial to avoid unexpected behavior in your
+			JavaScript code. By declaring variables and functions at the beginning of
+			their scope, you create more predictable and maintainable code. This
+			practice is especially important in larger projects where hoisting-related
+			bugs can be difficult to track down.
+		</p>
+	</body>
+</html>

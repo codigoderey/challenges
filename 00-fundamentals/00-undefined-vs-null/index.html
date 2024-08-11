@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Understanding Undefined vs. Null in JavaScript</title>
+	</head>
+	<body>
+		<h1>What's the Difference Between Undefined and Null in JavaScript?</h1>
+
+		<p>
+			In JavaScript, `undefined` and `null` both represent the absence of a
+			meaningful value. However, they have distinct differences and use cases:
+		</p>
+
+		<h2>Undefined</h2>
+		<ul>
+			<li
+				>Indicates that a variable has been declared but not yet assigned a
+				value.</li
+			>
+			<li>Represents a lack of an assigned value by default.</li>
+			<li>Returned by functions that don't explicitly return a value.</li>
+			<li
+				>Accessing properties that don't exist on an object also yields
+				`undefined`.</li
+			>
+		</ul>
+
+		<h2>Null</h2>
+		<ul>
+			<li>Represents the intentional absence of any object value.</li>
+			<li>Often used to explicitly clear the value of a variable.</li>
+			<li>Considered a special object value.</li>
+		</ul>
+
+		<h2>Technical Differences</h2>
+		<ul>
+			<li>`typeof undefined` yields "undefined"</li>
+			<li
+				>`typeof null` yields "object" (this is a historical quirk in
+				JavaScript)</li
+			>
+			<li
+				>Strict equality (`===`) differentiates between `undefined` and
+				`null`</li
+			>
+		</ul>
+
+		<h2>Example:</h2>
+		<pre><code>
+let x;          // x is undefined
+let y = null;  // y is explicitly set to null
+
+console.log(typeof x);  // "undefined"
+console.log(typeof y);  // "object"
+
+console.log(x === undefined); // true
+console.log(y === null);      // true
+  </code></pre>
+
+		<h2>Why Does This Matter?</h2>
+		<p>
+			Understanding the difference is crucial for writing robust JavaScript
+			code:
+		</p>
+
+		<ul>
+			<li>Prevents errors when working with unassigned variables.</li>
+			<li
+				>Allows you to intentionally distinguish between uninitialized and empty
+				values.</li
+			>
+			<li
+				>Aids in debugging by providing clues about the state of your data.</li
+			>
+		</ul>
+
+		<h2>Best Practices</h2>
+		<ul>
+			<li
+				>Use `null` when you need to explicitly represent an empty or missing
+				value.</li
+			>
+			<li
+				>Avoid using `undefined` explicitly. It's better to let it occur
+				naturally as a result of not assigning a value to a variable.</li
+			>
+			<li
+				>Use strict equality (`===`) when comparing values to ensure you're
+				checking both the value and the type.</li
+			>
+		</ul>
+
+		<script type="module">
+			import { generateHeadAndScriptContent } from "/assets/js/app.js";
+
+			document.head.innerHTML = generateHeadAndScriptContent(
+				"Data Structures and Algorithms",
+				"Everything you need to know about Data Structures and Algorithms with JavaScript."
+			);
+		</script>
+	</body>
+</html>

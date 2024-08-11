@@ -9,20 +9,19 @@
  */
 
 const fn = (nums, target) => {
-    let indexesArray = []
-    for(let i = 0; i < nums.length; i++){
-        for(let j = 0; j < nums.length; j++){
-            if(i != j && nums[i] + nums[j] === target){
-                indexesArray.push(i, j)
-                console.log(indexesArray)
-                return indexesArray
-            }
-        }
-    }
+	let indexesArray = [];
+	for (let i = 0; i < nums.length; i++) {
+		for (let j = 0; j < nums.length; j++) {
+			if (i != j && nums[i] + nums[j] === target) {
+				indexesArray.push(i, j);
+				return indexesArray;
+			}
+		}
+	}
 
-    return
-}
+	return;
+};
 
-fn([1,2,3], 3)
+fn([1, 2, 3], 3);
 
-module.exports = fn
+module.exports = fn;
