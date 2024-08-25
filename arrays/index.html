@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to arrays</title>
+</head>
+<body>
+    <h1>Introduction to arrays</h1>
+    
+    <p>Arrays are a data structure that can store a collection of elements. The elements can be of the same type or different types. In JavaScript, arrays are zero-indexed, which means that the first element is at index 0, the second element is at index 1, and so on.</p>
+
+    <p>Let's say that we have a certain amount of physicial books in our house and we need to set some shelves up so we can collocate our books.</p>
+
+    <p>We need to think of a few things to get this done:</p>
+
+    <ul>
+        <li>How many books do we have?</li>
+        <li>How many shelves do we need?</li>
+        <li>How many books can each shelf hold?</li>
+    </ul>
+
+    <p>Let's say we have 10 books, we need 3 shelves, and each shelf can hold 4 books. In this case, each shelve will represent an array and the books will be the elements of the array.</p>
+
+    <p>In JavaScript, an array is created by using square brackets [].</p>
+
+    <p>Arrays are indexed starting at 0. So, the first element of an array is at index 0, the second element is at index 1, and so on.</p>
+
+    <p>Here is how we can represent the example above using JavaScript:</p>
+
+    <pre>
+        <code>
+const books = ['book1', 'book2', 'book3', 'book4', 'book5', 'book6', 'book7', 'book8', 'book9', 'book10'];
+
+const shelves = [
+    ['book1', 'book2', 'book3', 'book4'],
+    ['book5', 'book6', 'book7', 'book8'],
+    ['book9', 'book10']
+];
+        </code>
+    </pre>
+
+    <p>Now let's construct a class that will be used to interact with the books and shelves:</p>
+
+    <pre>
+        <code>
+class BookShelves {
+    constructor(books) {
+        this.books = books;
+    }
+
+    accessBook(index) {
+        return this.books[index];
+    }
+
+    addBookAtIndex(index, book) {
+        this.books[index] = book;
+    }
+}
+        </code>
+    </pre>
+
+    <p>In class above, we wrote the following methods:</p>
+
+    <ul>
+        <li><code>constructor</code>: This is a special method that is called when an object is created from the class. It initializes the object with the given books.</li>
+        <li><code>accessBook</code>: This method takes an index as an argument and returns the book at that index in the array.</li>
+        <li><code>addBookAtIndex</code>: This method takes an index and a book as arguments and adds the book to the array at the given index.</li>
+    </ul>
+
+    <!-- TODO:
+        1. Accessing elements
+        2. Array capacity and length
+     -->
+
+     <p>Some programming languages support array capacity, meaning that you can define the maximum number of elements that an array can hold. In others, like JavaScript, arrays do not have a fixed capacity. You can add or remove elements from an array at any time.</p>
+
+</body>
+</html>
