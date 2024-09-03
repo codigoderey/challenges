@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Everything about arrays</title>
+  </head>
+  <body>
+    <div id="top-level">
+      <div id="top-bar">
+        <div id="blog-title">
+          <a href="/index.html"><span>2ality – JavaScript and more</span></a>
+        </div>
+        <div id="top-links">
+          <a href="../../index.html">Home</a
+          ><span class="topbar-separator">|</span
+          ><a href="../../p/about.html">About</a
+          ><span class="topbar-separator">|</span
+          ><a href="../../p/follow.html">Follow</a
+          ><span class="topbar-separator">|</span
+          ><a href="../../archive.html">Archive</a
+          ><span class="topbar-separator">|</span
+          ><span
+            ><a
+              href="https://www.ecosia.org/search?q=site%3Ahttps%3A%2F%2F2ality.com%2F"
+              >Search</a
+            >
+            <picture
+              ><source
+                srcset="../../assets/external-link-dark.svg"
+                media="(prefers-color-scheme: dark)"
+                width="16"
+                height="16"
+                style="vertical-align: baseline" />
+              <img
+                src="../../assets/external-link-light.svg"
+                width="16"
+                height="16"
+                style="vertical-align: baseline" /></picture></span
+          ><span class="topbar-separator">|</span
+          ><span
+            ><a href="https://exploringjs.com/">Books</a>
+            <picture
+              ><source
+                srcset="../../assets/external-link-dark.svg"
+                media="(prefers-color-scheme: dark)"
+                width="16"
+                height="16"
+                style="vertical-align: baseline" />
+              <img
+                src="../../assets/external-link-light.svg"
+                width="16"
+                height="16"
+                style="vertical-align: baseline" /></picture
+          ></span>
+        </div>
+      </div>
+      <div id="page-core">
+        <div id="page-core-content" class="number-headings">
+          <h1>Arrays in JavaScript</h1>
+          <div class="post-subtitle">
+            [2012-12-04]
+            <span
+              ><a href="../../archive.html#Tag=dev">dev</a>,
+              <a href="../../archive.html#Tag=javascript">javascript</a>,
+              <a href="../../archive.html#Tag=jslang">jslang</a>,
+              <a href="../../archive.html#Tag=jsarrays">jsarrays</a></span
+            >
+          </div>
+          <div class="ad-box">
+            <div class="ad-description">(Ad, please don’t block)</div>
+            <div id="ad-core-wrapper">
+              <script
+                async=""
+                type="text/javascript"
+                src="https://cdn.carbonads.com/carbon.js?serve=CKYI5KQI&amp;placement=2alitycom"
+                id="_carbonads_js"
+              ></script>
+              <div id="carbonads">
+                <span>
+                  <style>
+                    .carbon-img img {
+                      height: 100px;
+                    }
+                  </style>
+                  <span class="carbon-wrap">
+                    <a
+                      href="https://srv.carbonads.net/ads/click/x/GTND427LCW7DCK7YCTALYKQUCVBI52QICWYITZ3JCA7DP53NCVAI453KC67DP53NCYSDT23UF6AIPKJLCVSI45QEHEYI5KJMCVYD653ECTNCYBZ52K"
+                      class="carbon-img"
+                      target="_blank"
+                      rel="noopener sponsored"
+                    >
+                      <img
+                        src="https://srv.carbonads.net/static/30242/1bc57fbf19205c3ce0d462d4168201d23dbc0168"
+                        alt="ads via Carbon"
+                        border="0"
+                        height="100"
+                        width="130"
+                        data-no-statview="no"
+                        style="max-width: 130px"
+                      />
+                    </a>
+                    <a
+                      href="https://srv.carbonads.net/ads/click/x/GTND427LCW7DCK7YCTALYKQUCVBI52QICWYITZ3JCA7DP53NCVAI453KC67DP53NCYSDT23UF6AIPKJLCVSI45QEHEYI5KJMCVYD653ECTNCYBZ52K"
+                      class="carbon-text"
+                      target="_blank"
+                      rel="noopener sponsored"
+                    >
+                      Loved by developers. Trusted by enterprises. Start your
+                      free 30 day trial.
+                    </a>
+                  </span>
+                  <a
+                    href="http://carbonads.net/?utm_source=2alitycom&amp;utm_medium=ad_via_link&amp;utm_campaign=in_unit&amp;utm_term=carbon"
+                    class="carbon-poweredby"
+                    target="_blank"
+                    rel="noopener sponsored"
+                    >ads via Carbon</a
+                  >
+                </span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <!-- TODO: mention series on arrays (link to via label) -->
+
+            <b>Update 2012-12-17:</b> New Sect. 3, “The Array constructor”.
+            <p>
+              This blog post goes deeply into how arrays work in JavaScript:
+              they are much more like objects than you might think.
+
+              <!--more-->
+            </p>
+            <h2>Overview</h2>
+
+            Remember that objects in JavaScript are maps from strings to values.
+            Arrays are objects, only a few property keys are special:
+            <ol>
+              <li>
+                Array indices: If a key is a string holding a non-negative
+                integer below a certain maximum then it is treated as an array
+                index.
+              </li>
+              <li>
+                <tt>"length"</tt>: The value of this property is a non-negative
+                integer holding the length of an array. That length is defined
+                as the numerically largest array index, converted to integer,
+                plus one.
+              </li>
+            </ol>
+            This is somewhat shocking, especially when you are coming from
+            another language: array indices in JavaScript are actually strings.
+            Naturally, engines perform optimizations under the hood so that,
+            internally, that is not true. But it is how the spec defines them
+            and how the programmer sees them. For example:
+            <pre>
+    &gt; var arr = ['a', 'b', 'c'];
+        &gt; arr['0']
+        'a'
+        &gt; arr[0]
+        'a'
+    </pre
+            >
+            Because <tt>0</tt> is not an identifier, the dot notation
+            (<tt>arr.0</tt>) is a syntax error. Hence, you have to resort to
+            square brackets. The square brackets operator converts its operand
+            to string, which is why <tt>arr[0]</tt> works, above. Array indices
+            are (roughly) limited to 32 bit. Similarly to the square brackets
+            operator, the <tt>in</tt> operator also converts its first operand
+            to string. Which is why it can be used with numbers to check whether
+            or not there is an array element at a given index:
+            <pre>
+    &gt; 2 in [ 'a', 'b', 'c' ]
+        true
+        &gt; 3 in [ 'a', 'b', 'c' ]
+        false
+    </pre
+            >
+            The following sections go into more detail about how arrays work.
+
+            <h2>Arrays with holes</h2>
+
+            As we have seen, arrays are maps from numbers (encoded as strings)
+            to values. That means that arrays can have holes, indices smaller
+            than the length that don’t exist as properties in the array. You can
+            create holes in array literals by not writing any value
+            <i>before</i> a comma (a trailing comma has no effect). Holes are
+            skipped by iteration methods such as <tt>forEach</tt> and
+            <tt>map</tt>. An array with holes is called <i>sparse</i>. Let’s
+            compare a sparse array and a dense array:
+            <pre>
+    &gt; var sparse = [ , , 'c' ];
+        &gt; var dense  = [ undefined, undefined, 'c' ];
+    
+        &gt; 0 in sparse
+        false
+        &gt; 0 in dense
+        true
+    
+        &gt; for(var i=0; i&lt;sparse.length; i++) console.log(sparse[i]);
+        undefined
+        undefined
+        c
+        &gt; for(var i=0; i&lt;dense.length; i++) console.log(dense[i]);
+        undefined
+        undefined
+        c
+    
+        &gt; sparse.forEach(function (x) { console.log(x) });
+        c
+        &gt; dense.forEach(function (x) { console.log(x) });
+        undefined
+        undefined
+        c
+    
+        &gt; sparse.map(function (x,i) { return i });
+        [ , , 2 ]
+        &gt; dense.map(function (x,i) { return i });
+        [ 0, 1, 2 ]
+    
+        &gt; sparse.filter(function () { return true })
+        [ 'c' ]
+        &gt; dense.filter(function () { return true })
+        [ undefined, undefined, 'c' ]
+    </pre
+            >
+            For more information on dense and sparse arrays, consult
+            <a class="ptr">[2]</a>.
+
+            <h2>The Array constructor</h2>
+
+            There are three ways of invoking the <tt>Array</tt> constructor:
+            <ol>
+              <li>
+                <tt>new Array()</tt>: creates a new empty array. The empty array
+                literal <tt>[]</tt> is a more concise way of doing the same
+                thing.
+              </li>
+              <li>
+                <tt>new Array(len)</tt>: creates an array with
+                <tt>len</tt> holes. On
+                <a href="http://www.html5rocks.com/en/tutorials/speed/v8/"
+                  >some JavaScript engines</a
+                >, this operation lets you pre-allocate arrays, giving you
+                performance benefits for small arrays (not for large ones). In
+                most cases, performance doesn’t matter and you can avoid the
+                redundancy introduced by a preallocation. If it fits the
+                problem, an array literal initializing all elements at once is
+                preferable.
+              </li>
+              <li>
+                <tt>new Array(elem1, elem2, ...)</tt>: creates an array whose
+                elements are <tt>elem1</tt>, <tt>elem2</tt> etc. This variant of
+                the constructor is never a good choice, because if you use it
+                for a single element that is a number, the variant #2 is
+                invoked. To avoid this bug, use the array literal
+                <tt>[ elem1, elem2, ...]</tt> which does everything this
+                constructor variant does.
+              </li>
+            </ol>
+
+            If you call <tt>Array</tt> as a function (without <tt>new</tt>) then
+            the effect is the same as calling it as a constructor.
+            <p>
+              (As an aside, because there are not many use cases for this:
+              JavaScript therefore does not have a built-in function for
+              reliably creating arrays from elements. ECMAScript 6 will have
+              <a href="https://2ality.com/2011/07/array-from.html"
+                ><tt>Array.of()</tt></a
+              >
+              which rectifies this situation.)
+            </p>
+            <h2>Array indices</h2>
+
+            The ECMAScript specification has a very narrow definition for what
+            property keys are considered array indices. A string <tt>s</tt> is
+            an array index if and only if:
+            <ol>
+              <li>
+                <tt>s</tt>, parsed as an unsigned 32 bit integer and converted
+                to string is equal to <tt>s</tt>.
+              </li>
+              <li>
+                <tt>s</tt>, converted to integer, is smaller than
+                2<sup>32</sup>−1 (the maximum length).
+              </li>
+            </ol>
+            Thus, if compared numerically, an array index <tt>s</tt> must be
+            within the range
+            <blockquote>0 ≤ <tt>s</tt> &lt; 2<sup>32</sup>−1</blockquote>
+
+            <tt>ToUint32</tt>, the conversion to an unsigned 32 bit integer, is
+            a spec-internal operation. You can implement it in JavaScript as
+            follows <a class="ptr">[1]</a>:
+            <pre>
+    function ToUint32(x) {
+            return x &gt;&gt;&gt; 0;
+        }
+    </pre
+            >
+            <tt>ToUint32</tt> is very tolerant. However, condition (1), above,
+            means that while many strings can be converted to an unsigned 32 bit
+            integer, only a few of them are valid array indices. Examples:
+            <pre>
+    &gt; ToUint32('0')
+        0
+        &gt; ToUint32('00')
+        0
+        &gt; ToUint32('03')
+        3
+        &gt; ToUint32('abc')
+        0
+        &gt; ToUint32(Math.pow(2,32)+3)
+        3
+    </pre
+            >
+            Only the first example fulfills condition (1) and is a valid array
+            index. All non-array indices are treated like normal properties:
+            <pre>
+    &gt; var arr = ['a', 'b', 'c'];
+        &gt; arr['0']
+        'a'
+        &gt; arr['00']
+        undefined
+    </pre
+            >
+
+            <h2>length</h2>
+
+            The property <tt>length</tt> of arrays is always an integer value
+            <tt>l</tt> in the range
+            <blockquote>0 ≤ <tt>l</tt> ≤ 2<sup>32</sup>−1 (32 bit)</blockquote>
+
+            <h3>Tracking indices</h3>
+
+            As new elements are added, the length increases automatically:
+            <pre>
+    &gt; var arr = [];
+        &gt; arr.length
+        0
+        &gt; arr[0] = 'a';
+        &gt; arr.length
+        1
+    </pre
+            >
+
+            <h3>Decreasing the length</h3>
+
+            if an existing length <tt>l</tt> is replaced with a newer value
+            <tt>l'</tt> that is smaller, then all array elements are removed
+            whose indices <tt>i</tt> are in the range
+            <blockquote><tt>l'</tt> ≤ <tt>i</tt> &lt; <tt>l</tt></blockquote>
+            For example:
+            <pre>
+    &gt; var arr = [ 'a', 'b', 'c' ];
+        &gt; arr.length
+        3
+        &gt; 2 in arr
+        true
+        &gt; arr.length = 2;
+        2
+        &gt; 2 in arr
+        false
+    </pre
+            >
+
+            <h3>Increasing the length</h3>
+
+            Setting the length to values larger than the current length creates
+            holes:
+            <pre>
+    &gt; var arr = ['a'];
+        &gt; arr.length = 3;
+        &gt; arr
+        [ 'a', , ,]
+    </pre
+            >
+
+            <h3>Legal values for <tt>length</tt></h3>
+
+            You can assign any value to <tt>length</tt>, but converting it to a
+            number via <tt>ToUint32</tt> and converting it to number must yield
+            the same result. Examples:
+            <pre>
+    &gt; ToUint32('0')  //*
+        0
+        &gt; ToUint32('000')  //*
+        0
+        &gt; ToUint32('-1')
+        4294967295
+        &gt; ToUint32(Math.pow(2,32)-1)  //*
+        4294967295
+        &gt; ToUint32(Math.pow(2,32))
+        0
+        &gt; ToUint32('abc')
+        0
+    </pre
+            >
+            Hence, all values marked with an asterisk are legal lengths, the
+            remaining values aren’t:
+            <pre>
+    &gt; Number('0')
+        0
+        &gt; Number('000')
+        0
+        &gt; Number('-1')
+        -1
+        &gt; Number(Math.pow(2,32)-1)
+        4294967295
+        &gt; Number(Math.pow(2,32))
+        4294967296
+        &gt; Number('abc')
+        NaN
+    </pre
+            >
+            You can easily test this:
+            <pre>
+    &gt; [].length = -1
+        RangeError: Invalid array length
+        &gt; [].length = Math.pow(2,32)
+        RangeError: Invalid array length
+        &gt; [].length = 'abc'
+        RangeError: Invalid array length
+    </pre
+            >
+
+            <h2>Array instances</h2>
+
+            Instances of <tt>Array</tt> are like normal objects, except for one
+            difference: If you
+            <a
+              href="http://www.ecma-international.org/ecma-262/5.1/#sec-15.4.5.1"
+              >define</a
+            >
+            a property, two cases are handled differently:
+            <ul>
+              <li>Array indices: increase <tt>length</tt>, if necessary.</li>
+              <li>
+                <tt>"length"</tt>: throw an error for illegal values, possibly
+                remove elements if the new value is smaller than the previous
+                one.
+              </li>
+            </ul>
+            All other property keys are handled the same as for normal objects.
+            Note that property definition is also used by the assignment
+            operator (it calls the internal
+            <a href="http://www.ecma-international.org/ecma-262/5.1/#sec-8.12.5"
+              >[[Put]]</a
+            >
+            method which in turn calls [[DefineOwnProperty]] – if there isn’t a
+            setter visible in the prototype chain).
+            <p>
+              The above means that it is impossible to create a subtype of
+              <tt>Array</tt> using standard ECMAScript 5. “<a
+                href="https://2ality.com/2011/12/subtyping-builtins.html"
+                >Subtyping JavaScript built-ins</a
+              >” has details.
+            </p>
+            <h2>Beyond the limits</h2>
+
+            What happens if you use an array index that is not within the
+            allowed range? Then it is treated like a normal property key. If you
+            use such an index to add to an array, your addition is not
+            considered an array element. For example, let’s use an index that is
+            too big.
+            <pre>
+    &gt; var arr = ['a', 'b'];
+        &gt; arr[Math.pow(2,32)-1] = 'c';
+        &gt; arr
+        [ 'a', 'b' ]
+        &gt; arr.length
+        2
+        &gt; arr[Math.pow(2,32)-1]
+        'c'
+    </pre
+            >
+            You do get an error if you try to grow the length beyond the allowed
+            maximum:
+            <pre>
+    &gt; var arr = new Array(Math.pow(2,32)-1)  // max length
+        &gt; arr.push('x')
+        RangeError: Invalid array length
+    </pre
+            >
+
+            <h2>Recommendations</h2>
+
+            Recommendations when working with arrays:
+            <ul>
+              <li>
+                Pretend array indices are numbers. That’s what usually happens
+                under the hood and the general direction in which ECMAScript is
+                moving.
+              </li>
+              <li>Avoid the <tt>Array</tt> constructor.</li>
+              <li>Use array literals whenever you can.</li>
+              <li>
+                Don’t be clever with regard to arrays. If you follow standard
+                patterns, engines usually figure out what you are trying to do
+                and optimize accordingly. The article “<a
+                  href="http://www.html5rocks.com/en/tutorials/speed/v8/"
+                  >Performance Tips for JavaScript in V8</a
+                >” (by Chris Wilson) contains several interesting array-related
+                suggestions.
+              </li>
+            </ul>
+
+            If you liked this blog post, you will probably also like “<a
+              href="https://2ality.com/2012/10/javascript-properties.html"
+              >Object properties in JavaScript</a
+            >”.
+
+            <h2>Related blog posts</h2>
+
+            <ol id="references">
+              <li>
+                <a href="https://2ality.com/2012/02/js-integers.html"
+                  >Integers and shift operators in JavaScript</a
+                >
+              </li>
+              <li>
+                <a href="https://2ality.com/2012/06/dense-arrays.html"
+                  >JavaScript: sparse arrays vs. dense arrays</a
+                >
+              </li>
+            </ol>
+          </div>
+          <div style="margin-top: 3rem">
+            <div id="disqus_thread">
+              <iframe
+                id="dsq-app6670"
+                name="dsq-app6670"
+                allowtransparency="true"
+                frameborder="0"
+                scrolling="no"
+                tabindex="0"
+                title="Disqus"
+                width="100%"
+                src="https://disqus.com/embed/comments/?base=default&amp;f=2ality&amp;t_i=http%3A%2F%2Fwww.2ality.com%2F2012%2F12%2Farrays.html&amp;t_u=http%3A%2F%2Fwww.2ality.com%2F2012%2F12%2Farrays.html&amp;t_d=Arrays%20in%20JavaScript&amp;t_t=Arrays%20in%20JavaScript&amp;s_o=default#version=4cca83b0da0691f931ef86061fb7db43"
+                style="
+                  width: 1px !important;
+                  min-width: 100% !important;
+                  border: none !important;
+                  overflow: hidden !important;
+                  height: 1767px !important;
+                "
+                horizontalscrolling="no"
+                verticalscrolling="no"
+              ></iframe>
+            </div>
+            <script>
+              var disqus_config = function () {
+                this.page.url = "http://www.2ality.com/2012/12/arrays.html";
+                this.page.identifier =
+                  "http://www.2ality.com/2012/12/arrays.html";
+              };
+              (function () {
+                // DON'T EDIT BELOW THIS LINE
+                var d = document,
+                  s = d.createElement("script");
+                s.src = "https://2ality.disqus.com/embed.js";
+                s.setAttribute("data-timestamp", +new Date());
+                (d.head || d.body).appendChild(s);
+              })();
+            </script>
+            <noscript
+              >Please enable JavaScript to view the
+              <a href="https://disqus.com/?ref_noscript" rel="nofollow"
+                >comments powered by Disqus.</a
+              ></noscript
+            >
+          </div>
+        </div>
+      </div>
+      <div id="sidebar">
+        <div class="labeled-image">
+          <div class="labeled-image-image">
+            <a href="https://dr-axel.de/"
+              ><img
+                src="../../img/axel-head.jpg"
+                alt="Headshot of Dr. Axel Rauschmayer"
+            /></a>
+          </div>
+          <div class="labeled-image-label">
+            <b>Dr. Axel Rauschmayer</b><br /><a href="https://dr-axel.de/"
+              >Homepage</a
+            >
+            | <a rel="me" href="https://fosstodon.org/@rauschma">Mastodon</a>
+          </div>
+        </div>
+        <div class="labeled-image">
+          <div class="labeled-image-image">
+            <a href="https://exploringjs.com/impatient-js/"
+              ><img
+                src="../../img/impatient-js-es2022.jpg"
+                alt="Cover of the book “JavaScript for impatient programmers (ES2022 edition)” by Axel Rauschmayer. It shows a rhinoceros."
+            /></a>
+          </div>
+          <div class="labeled-image-label">
+            <a href="https://exploringjs.com/impatient-js/"
+              >JavaScript for impatient programmers</a
+            ><br />Book (free online), exercises, quizzes
+          </div>
+        </div>
+        <div class="labeled-image">
+          <div class="labeled-image-image">
+            <a href="https://exploringjs.com/deep-js/"
+              ><img
+                src="../../img/deep-js.jpg"
+                alt="Cover of the book “Deep JavaScript” by Axel Rauschmayer. It shows a freediver who swims under water and follows a rope down into the deep."
+            /></a>
+          </div>
+          <div class="labeled-image-label">
+            <a href="https://exploringjs.com/deep-js/">Deep JavaScript</a
+            ><br />Book (free online)
+          </div>
+        </div>
+        <div class="labeled-image">
+          <div class="labeled-image-image">
+            <a href="https://exploringjs.com/tackling-ts/"
+              ><img
+                src="../../img/tackling-ts.jpg"
+                alt="Cover of the book “Tackling TypeScript” by Axel Rauschmayer. It shows a a pair of boxing gloves."
+            /></a>
+          </div>
+          <div class="labeled-image-label">
+            <a href="https://exploringjs.com/tackling-ts/"
+              >Tackling TypeScript</a
+            ><br />Book (free online)
+          </div>
+        </div>
+        <div class="labeled-image">
+          <div class="labeled-image-image">
+            <a href="https://exploringjs.com/nodejs-shell-scripting/"
+              ><img
+                src="../../img/nodejs-shell-scripting.jpg"
+                alt="Cover of the book “Shell scripting with Node.js” by Dr. Axel Rauschmayer. It shows a field of light blue hexagonal bars, with three yellow ones in the middle."
+            /></a>
+          </div>
+          <div class="labeled-image-label">
+            <a href="https://exploringjs.com/nodejs-shell-scripting/"
+              >Node.js shell scripting</a
+            ><br />Book (free online)
+          </div>
+        </div>
+        <div class="labeled-image">
+          <div class="labeled-image-image">
+            <a
+              href="https://ecmascript.news/?utm_source=2ality&amp;utm_medium=banner&amp;utm_campaign=sidebar"
+              ><img
+                src="../../img/ecmascript-news-logo.jpg"
+                alt="Logo with text “ES News”"
+            /></a>
+          </div>
+          <div class="labeled-image-label">
+            <a
+              href="https://ecmascript.news/?utm_source=2ality&amp;utm_medium=banner&amp;utm_campaign=sidebar"
+              >ECMAScript News</a
+            ><br />Newsletter (free)
+          </div>
+        </div>
+      </div>
+    </div>
+    <script
+      src="https://cdn.usefathom.com/script.js"
+      data-site="FDLHMKBU"
+      defer=""
+    ></script>
+    <iframe style="display: none"></iframe
+    ><iframe name="__launchpadLocator" style="display: none"></iframe>
+  </body>
+</html>
